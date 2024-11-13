@@ -44,5 +44,4 @@ void shufflePlaylist(ArrayList<Song> playlist){
         playlist.set(i, playlist.get(j));
         playlist.set(j,temp);
     }
-
 }
