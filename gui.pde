@@ -80,7 +80,7 @@ public void createGUI(){
   fast_foward_button.addEventHandler(this, "fastfowardClicked");
   rewind_button = new GImageButton(this, 361, 277, 100, 60, new String[] { "Rewind Button.png", "Rewind Button.png", "Rewind Button.png" } );
   rewind_button.addEventHandler(this, "rewindClicked");
-  loop_button = new GImageButton(this, 227, 360, 100, 60, new String[] { "shuffle.png", "shuffle.png", "shuffle.png" } );
+  loop_button = new GImageButton(this, 227, 360, 100, 60, new String[] { "Black Loop Button.png", "Black Loop Button.png", "Black Loop Button.png" } );
   loop_button.addEventHandler(this, "loopClicked");
   shuff_button = new GImageButton(this, 224, 458, 100, 60, new String[] { "shuffle.png", "shuffle.png", "shuffle.png" } );
   shuff_button.addEventHandler(this, "shuffleClicked");
