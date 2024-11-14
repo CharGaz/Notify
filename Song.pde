@@ -31,5 +31,4 @@ class Song{
             this.song.stop();
         }
     }
-
 }
