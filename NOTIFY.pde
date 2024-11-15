@@ -35,6 +35,7 @@ void setup(){
     playlist.add(new Song(this,"St Chroma.mp3","Chromakopia","Chromakopia Album.jpeg"));
     playlist.add(new Song(this, "Doomsday.mp3", "Operation: DOOMSDAY","Operation Doomsday Album Cover.jpeg" ));
     playlist.add(new Song(this, "Rhymes Like Dimes.mp3", "Operation: DOOMSDAY","Operation Doomsday Album Cover.jpeg" ));
+    playlist.add(new Song(this, "Potholderz.mp3", "MM Food","MM Food.jpeg" ));
 
     bands = 256;
     spectrum = new float[bands];
@@ -46,15 +47,18 @@ void setup(){
     audioVisualizer = new AudioVisualizer(new PVector(0, 0), new PVector(0, 0));
     
     createGUI();
-    //soundImg = loadImage("Audio button.png");
+    soundImg = loadImage("Audio button.png");
 }
 
 void draw(){
   background(197, 211, 232);
   drawUI();
-  //image(soundImg,880,530, 48,48);
+  image(soundImg,880,530, 48,48);
    
     
+  image(soundImg,880,530, 48,48);
+  drawSongs();
+  
   if(playlist.size() > 0){
       playlist.get(songIndex).displayInfo(this);
     }
@@ -124,6 +128,24 @@ void drawUI(){
 
   }
   
+}
+
+void drawSongs(){
+  int x = 220; //Setting base x and y values 
+  int y = 50;
+
+  for(int i = 0; i < playlist.size(); i++){
+    playlist.get(i).printSongs(this,x,y); //Inputs all song info into printSongs function
+    noFill();
+    strokeWeight(5);
+    rect(x-40,y-25, 125,50);
+    x += 200; //Moves x over by 200 every time
+    
+    if(x > 900){
+      x = 210; //When x reaches the end of panal, it resest to the start
+      y += 100; //When x resets, y moves down to create a new row
+    }
+  }
 }
 
 void shufflePlaylist(ArrayList<Song> d){
