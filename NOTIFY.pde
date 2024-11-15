@@ -37,7 +37,7 @@ void setup(){
     playlist.add(new Song(this, "Rhymes Like Dimes.mp3", "Operation: DOOMSDAY","Operation Doomsday Album Cover.jpeg" ));
     playlist.add(new Song(this, "Potholderz.mp3", "MM Food","MM Food.jpeg" ));
 
-    bands = 64;
+    bands = 512;
     spectrum = new float[bands];
     fft = new FFT(this, bands);
     //in = new AudioIn(this, 0);
