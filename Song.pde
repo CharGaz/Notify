@@ -61,4 +61,9 @@ class Song{
         this.song.cue(0.0);
     }
 
+    void printSongs(PApplet sketch, int x, int y){
+        fill(0);
+        sketch.text(this.name.substring(0, this.name.length()-4),x,y);
+    }
+
 }
