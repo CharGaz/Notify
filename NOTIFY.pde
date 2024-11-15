@@ -37,26 +37,26 @@ void setup(){
     playlist.add(new Song(this, "Rhymes Like Dimes.mp3", "Operation: DOOMSDAY","Operation Doomsday Album Cover.jpeg" ));
     playlist.add(new Song(this, "Potholderz.mp3", "MM Food","MM Food.jpeg" ));
 
-    bands = 256;
+    bands = 64;
     spectrum = new float[bands];
     fft = new FFT(this, bands);
     //in = new AudioIn(this, 0);
     
     //in.start();
    
-    audioVisualizer = new AudioVisualizer(new PVector(0, 0), new PVector(0, 0));
+    audioVisualizer = new AudioVisualizer(950, width-25);
     
     createGUI();
-    soundImg = loadImage("Audio button.png");
+    //soundImg = loadImage("Audio button.png");
 }
 
 void draw(){
   background(197, 211, 232);
   drawUI();
-  image(soundImg,880,530, 48,48);
+  //image(soundImg,880,530, 48,48);
    
     
-  image(soundImg,880,530, 48,48);
+  //image(soundImg,880,530, 48,48);
   drawSongs();
   
   if(playlist.size() > 0){
