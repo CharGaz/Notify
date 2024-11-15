@@ -18,6 +18,12 @@ int loopIndex = 1;
 float playBackSpeed = 1.0;
 float setVolume = 0.9;
 
+// Audio Analyzer Setup
+int bands;
+float[] spectrum;
+AudioIn in;
+FFT fft;
+AudioVisualizer audioVisualizer;
 
 
 void setup(){
@@ -30,16 +36,25 @@ void setup(){
     playlist.add(new Song(this, "Doomsday.mp3", "Operation: DOOMSDAY","Operation Doomsday Album Cover.jpeg" ));
     playlist.add(new Song(this, "Rhymes Like Dimes.mp3", "Operation: DOOMSDAY","Operation Doomsday Album Cover.jpeg" ));
 
+    bands = 256;
+    spectrum = new float[bands];
+    fft = new FFT(this, bands);
+    //in = new AudioIn(this, 0);
+    
+    //in.start();
+   
+    audioVisualizer = new AudioVisualizer(new PVector(0, 0), new PVector(0, 0));
     
     createGUI();
-    soundImg = loadImage("Audio button.png");
+    //soundImg = loadImage("Audio button.png");
 }
 
 void draw(){
   background(197, 211, 232);
   drawUI();
-  image(soundImg,880,530, 48,48);
-
+  //image(soundImg,880,530, 48,48);
+   
+    
   if(playlist.size() > 0){
       playlist.get(songIndex).displayInfo(this);
     }
@@ -58,6 +73,7 @@ void draw(){
     
     
   }
+  audioVisualizer.update();
 
 
 }
