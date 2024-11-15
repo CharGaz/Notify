@@ -18,11 +18,12 @@ class Song{
         
         fill(0);
         textSize(20);
-        sketch.text("Album: " + this.album, 935,250);
-        sketch.text("Song: " + this.name.substring(0,this.name.length()-4), 935,275);
+        sketch.text("Album: " + this.album, 935,240);
+        sketch.text("Song: " + this.name.substring(0,this.name.length()-4), 935,265);
+        sketch.text("Artist: ", 935, 290);
 
         if(cover != null){
-            sketch.image(cover, 967,25, 200,200);
+            sketch.image(cover, 967,20, 200,200);
         }
 
         else{
@@ -35,12 +36,11 @@ class Song{
     void playSong(float speed, float volume){
         if(playSong){
 
-            this.song.rate(speed);
-            this.song.amp(volume);
+            
 
             if(!this.song.isPlaying() && !playStatus){
                 playStatus = true;
-                this.song.play();
+                this.song.play(speed,volume);
             }
         }
             
@@ -54,6 +54,11 @@ class Song{
         if(this.song.isPlaying()){
             this.song.stop();
         }
+    }
+
+    void reset(){
+        this.song.stop();
+        this.song.cue(0.0);
     }
 
 }

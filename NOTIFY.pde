@@ -1,6 +1,9 @@
 import processing.sound.*;
 import g4p_controls.*;
 
+PImage soundImg;
+PImage speedImg;
+
 boolean playSong = false;
 boolean playStatus = false;
 boolean displayPlay = true;
@@ -29,11 +32,13 @@ void setup(){
 
     
     createGUI();
+    soundImg = loadImage("Audio button.png");
 }
 
 void draw(){
   background(197, 211, 232);
   drawUI();
+  image(soundImg,880,530, 48,48);
 
   if(playlist.size() > 0){
       playlist.get(songIndex).displayInfo(this);
@@ -41,17 +46,16 @@ void draw(){
 
   
 
-  playlist.get(songIndex).playSong(playBackSpeed, setVolume); //Putting the playback speed and volume into the song class
+   playlist.get(songIndex).playSong(playBackSpeed, setVolume);//Putting the playback speed and volume into the song class
   
   if(!playlist.get(songIndex).song.isPlaying() && playStatus){
+    
     playStatus = false;
     if(!isLooping){
       songIndex = (songIndex + 1) % playlist.size();
     }
 
-    else{
-      songIndex = songIndex % playlist.size();
-    }
+    
     
   }
 
@@ -109,6 +113,11 @@ void drawUI(){
 void shufflePlaylist(ArrayList<Song> d){
     if(playlist.size() < 2){
         return;
+    }
+
+    //Resets each song in playlist to make sure it starts from beginning of song 
+    for(Song song : d){
+      song.reset();
     }
 
     for(int i = d.size() - 1; i > 0; i--){

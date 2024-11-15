@@ -87,7 +87,7 @@ public void speedChanged(GSlider source, GEvent event) { //_CODE_:speed_slider:8
   
   float displaySpeed = speed_slider.getValueF(); //getting values from the slider
 
-  playBackSpeed = map(displaySpeed, 0.25,2, 0.75, 1.25);
+  playBackSpeed = map(displaySpeed, 0.0,2, 0.6, 1.4);
   if(playlist.get(songIndex).song.isPlaying()){
     playlist.get(songIndex).song.rate(playBackSpeed);
   }
@@ -123,17 +123,17 @@ public void createGUI(){
   fast_foward_button.addEventHandler(this, "fastfowardClicked");
   rewind_button = new GImageButton(this, 520, 505, 60, 50, new String[] { "Rewind Button.png", "Rewind Button.png", "Rewind Button.png" } );
   rewind_button.addEventHandler(this, "rewindClicked");
-  loop_button = new GImageButton(this, 320, 505, 100, 60, new String[] { "Black Loop Button.png","Black Loop Button.png" , "Black Loop Button.png" } );
+  loop_button = new GImageButton(this, 320, 485, 100, 100, new String[] { "Black Loop Button.png","Black Loop Button.png" , "Black Loop Button.png" } );
   loop_button.addEventHandler(this, "loopClicked");
-  loop_buttonWhite = new GImageButton(this, 320, 505, 100, 60, new String[] { "White Loop Button.png", "White Loop Button.png", "White Loop Button.png" } );
+  loop_buttonWhite = new GImageButton(this, 320, 485, 100, 100, new String[] { "White Loop Button.png", "White Loop Button.png", "White Loop Button.png" } );
   loop_buttonWhite.addEventHandler(this, "whiteLoopClicked");
   shuff_button = new GImageButton(this, 420, 505, 100, 60, new String[] { "shuffle.png", "shuffle.png", "shuffle.png" } );
   shuff_button.addEventHandler(this, "shuffleClicked");
   speed_slider = new GSlider(this, 780, 480, 100, 50, 10.0);
   speed_slider.setShowValue(true);
   speed_slider.setShowLimits(true);
-  speed_slider.setLimits(1.0, 0.2, 2.0);
-  speed_slider.setNbrTicks(7);
+  speed_slider.setLimits(1.0, 0.1, 2.0);
+  speed_slider.setNbrTicks(5);
   speed_slider.setStickToTicks(false);
   speed_slider.setShowTicks(false);
   speed_slider.setNumberFormat(G4P.DECIMAL, 1);
