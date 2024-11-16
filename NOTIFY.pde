@@ -30,6 +30,8 @@ void setup(){
     size(1200, 600);
     background(197, 211, 232);
 
+    frameRate(120);
+
     playlist.add(new Song(this,"Benzi Box.mp3","Mouse and the Mask", "Mouse and the Mask.jpeg"));
     playlist.add(new Song(this, "Darling I.mp3","Chromakopia","Chromakopia Album.jpeg" ));
     playlist.add(new Song(this,"St Chroma.mp3","Chromakopia","Chromakopia Album.jpeg"));

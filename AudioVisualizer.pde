@@ -2,6 +2,7 @@ class AudioVisualizer{
   float p1, p2;    // top left and bottom right of graph
   int f = 0;
   int amp = 20;
+  float lerpIntensity = 0.1;
   
   float[] prev1 = new float[bands];
   float[] prev2 = new float[bands];
@@ -37,6 +38,10 @@ class AudioVisualizer{
     }
     
     for(int i = 0; i < reducedSpectrum.length; i++){
+      reducedSpectrum[i] = lerp(prev1[i], reducedSpectrum[i], lerpIntensity);
+    }
+    
+    for(int i = 0; i < reducedSpectrum.length; i++){
       stroke(128, 0, 128 + i);
       strokeWeight(3);
       float newI = map(i, 0, (bands - 1)/2, p1, p2);
@@ -44,15 +49,20 @@ class AudioVisualizer{
       //float newY = map(height - 50 - spectrum[i]*height*10, 0, height - 50 - spectrum[i]*height*10, 0, height - 50 - highestBand*height*10);
       
       if(prev1 != null && prev2 != null && prev3 != null && prev4 != null){
-        newY = height - 50 - (reducedSpectrum[i]*height*amp + prev1[i]*height*amp + prev2[i]*height*amp + prev3[i]*height*amp + prev4[i]*height*amp) / 5;
+        //newY = height - 50 - (reducedSpectrum[i]*height*amp + prev1[i]*height*amp + prev2[i]*height*amp + prev3[i]*height*amp + prev4[i]*height*amp) / 5;
+        newY = (reducedSpectrum[i] + prev1[i] + prev2[i] + prev3[i] + prev4[i]) / 5;
 
       }
       else{
-        newY = height - 50 - reducedSpectrum[i]*height*amp;
+        //newY = height - 50 - reducedSpectrum[i]*height*amp;
+        newY = reducedSpectrum[i];
+
       }
-      
-      line(newI, height - 50, newI, newY);
-      println(newY);
+      strokeWeight(1);
+      //line(newI, height - 50, newI, height - 50 - newY*amp*height);
+      newY = constrain(newY*amp*400, 0, 250 + random(0, 5));
+      ellipse(newI, height - 150, 1, newY);
+
     }
     
     prev4 = prev3;
