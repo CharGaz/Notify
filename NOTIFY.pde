@@ -28,7 +28,8 @@ AudioVisualizer audioVisualizer;
 
 void setup(){
     size(1200, 600);
-    background(197, 211, 232);
+    //background(197, 211, 232);
+    background(158,163,210);
 
     frameRate(120);
 
@@ -53,7 +54,8 @@ void setup(){
 }
 
 void draw(){
-  background(197, 211, 232);
+  //background(197, 211, 232);
+  background(158,163,210);
   drawUI();
   //image(soundImg,880,530, 48,48);
    
@@ -86,21 +88,28 @@ void draw(){
 
 void drawUI(){
   // left frame
-  fill(208, 232, 197);
+  //fill(208, 232, 197);
+  fill(158,163,210);
   strokeWeight(0);
   rect(0, 0, 200, height);
   
   // bottom frame
+  fill(184, 186, 204);
   rect(200, height - 150, 925, height - 150);
 
   //right frame
-  fill(208,232,197);
   strokeWeight(0);
-  rect(925,0, width, height);
+  rect(925,0, width, 300);
+  
+  // bottim right audio visualizer frame
+  fill(209, 211, 234);
+  rect(925, 300, width, height);
   
   // divisor lines
-  stroke(166, 174, 191);
-  fill(166, 174, 191);
+  //stroke(166, 174, 191);
+  //fill(166, 174, 191);
+  stroke(2, 1, 10);
+  fill(2, 1, 10);
   strokeWeight(2);
   rect(200, 0, 5, height);    // left line
   rect(205, height - 150, 723, 5);    // bottom line
