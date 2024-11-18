@@ -63,7 +63,11 @@ class Song{
 
     void printSongs(PApplet sketch, int x, int y){
         fill(0);
+        textAlign(CENTER);
+        textSize(16);
         sketch.text(this.name.substring(0, this.name.length()-4),x,y);
-    }
+        textAlign(LEFT);
+
+  }
 
 }

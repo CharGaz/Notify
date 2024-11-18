@@ -141,20 +141,29 @@ void drawUI(){
   
 }
 
+// TODO: rename varaibles, DOES NOT FULLY WORK, TEMP SOLUTION
 void drawSongs(){
-  int x = 220; //Setting base x and y values 
-  int y = 50;
-
-  for(int i = 0; i < playlist.size(); i++){
-    playlist.get(i).printSongs(this,x,y); //Inputs all song info into printSongs function
+  
+  int startX = 200;
+  int endX = 900;
+  int startY = 100;
+  int rowSize = 3;
+  int boxWidth = 150;
+  int spacing = (endX - startX) / (rowSize + 1);
+  
+  int i = 1;
+  
+  for(Song song: playlist){
     noFill();
+    stroke(0);
     strokeWeight(5);
-    rect(x-40,y-25, 125,50);
-    x += 200; //Moves x over by 200 every time
+    rect(startX + i*spacing - boxWidth / 2, startY - boxWidth / 2, boxWidth, boxWidth);
+    song.printSongs(this, startX + i*spacing, startY);
     
-    if(x > 900){
-      x = 210; //When x reaches the end of panal, it resest to the start
-      y += 100; //When x resets, y moves down to create a new row
+    i++;
+    if(i > rowSize){
+      i = 1;
+      startY += spacing;
     }
   }
 }
