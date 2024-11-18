@@ -3,6 +3,7 @@ import g4p_controls.*;
 
 PImage soundImg;
 PImage speedImg;
+PImage logo;
 
 boolean playSong = false;
 boolean playStatus = false;
@@ -11,7 +12,13 @@ boolean isLooping = false;
 
 
 
-ArrayList<Song> playlist = new ArrayList<Song>();
+ArrayList<ArrayList<Song>> allPlaylists = new ArrayList<ArrayList<Song>>();
+ArrayList<Song> defaultPlaylist = new ArrayList<Song>();
+ArrayList<Song> playlist1 = new ArrayList<Song>();
+ArrayList<Song> playlist2 = new ArrayList<Song>();
+
+ArrayList<Song> playlist;
+
 int songIndex = 0;
 int loopIndex = 1;
 
@@ -27,38 +34,32 @@ AudioVisualizer audioVisualizer;
 
 
 void setup(){
-    size(1200, 600);
-    background(197, 211, 232);
+  size(1200, 600);
+  background(197, 211, 232);
+  frameRate(120);
 
-    frameRate(120);
+  
+  initializePlaylists();
+  setActivePlaylist(0); //Sets the active playlist to all songs
 
-    playlist.add(new Song(this,"Benzi Box.mp3","Mouse and the Mask", "Mouse and the Mask.jpeg"));
-    playlist.add(new Song(this, "Darling I.mp3","Chromakopia","Chromakopia Album.jpeg" ));
-    playlist.add(new Song(this,"St Chroma.mp3","Chromakopia","Chromakopia Album.jpeg"));
-    playlist.add(new Song(this, "Doomsday.mp3", "Operation: DOOMSDAY","Operation Doomsday Album Cover.jpeg" ));
-    playlist.add(new Song(this, "Rhymes Like Dimes.mp3", "Operation: DOOMSDAY","Operation Doomsday Album Cover.jpeg" ));
-    playlist.add(new Song(this, "Potholderz.mp3", "MM Food","MM Food.jpeg" ));
-
-    bands = 512;
-    spectrum = new float[bands];
-    fft = new FFT(this, bands);
-    //in = new AudioIn(this, 0);
-    
-    //in.start();
+  bands = 512;
+  spectrum = new float[bands];
+  fft = new FFT(this, bands);
    
-    audioVisualizer = new AudioVisualizer(950, width-25);
+  audioVisualizer = new AudioVisualizer(950, width-25);
     
-    createGUI();
-    //soundImg = loadImage("Audio button.png");
+  createGUI();
+  soundImg = loadImage("Audio button.png");
+  speedImg = loadImage("Stop Watch.png");
+  logo = loadImage("logo.png");
 }
 
 void draw(){
   background(197, 211, 232);
   drawUI();
-  //image(soundImg,880,530, 48,48);
-   
-    
-  //image(soundImg,880,530, 48,48);
+  image(soundImg,880,530, 48,48);
+  image(speedImg, 881, 480, 39, 39);
+  image(logo,0,0, 190,190);
   drawSongs();
   
   if(playlist.size() > 0){
@@ -80,8 +81,22 @@ void draw(){
     
   }
   audioVisualizer.update();
+}
 
+void setActivePlaylist(int index){ //Switches between the playlists
+  if(index >= 0 && index < allPlaylists.size()){
 
+    if(playlist != null && playlist.size() > 0 && playlist.get(songIndex).song.isPlaying()){ //Stoping the song when it switches playlists
+      playlist.get(songIndex).stopSong();
+      
+    }
+    playStatus = false; // Reset play status
+    playSong = false;
+    displayPlay = true;
+
+    playlist = allPlaylists.get(index);
+    songIndex = 0; // Reset songIndex when switching playlists
+  } 
 }
 
 void drawUI(){
@@ -106,6 +121,7 @@ void drawUI(){
   rect(205, height - 150, 723, 5);    // bottom line
   rect(925, 0, 5, height); //right line
   rect(925,300, width, 5); // right panal divisor
+  rect(0,190, 200,5); //left panal dvisor
   
   //Having either play or pause button on the screen at one given time
   if(displayPlay){
@@ -133,7 +149,7 @@ void drawUI(){
 }
 
 void drawSongs(){
-  int x = 220; //Setting base x and y values 
+  int x = 275; //Setting base x and y values 
   int y = 50;
 
   for(int i = 0; i < playlist.size(); i++){
@@ -141,17 +157,17 @@ void drawSongs(){
     noFill();
     strokeWeight(5);
     rect(x-40,y-25, 125,50);
-    x += 200; //Moves x over by 200 every time
+    x += 180; //Moves x over by 200 every time
     
     if(x > 900){
-      x = 210; //When x reaches the end of panal, it resest to the start
-      y += 100; //When x resets, y moves down to create a new row
+      x = 275; //When x reaches the end of panal, it resest to the start
+      y += 75; //When x resets, y moves down to create a new row
     }
   }
 }
 
 void shufflePlaylist(ArrayList<Song> d){
-    if(playlist.size() < 2){
+    if(d.size() < 2){
         return;
     }
 
@@ -161,9 +177,10 @@ void shufflePlaylist(ArrayList<Song> d){
     }
 
     for(int i = d.size() - 1; i > 0; i--){
-        int j = int(random(i+1));
-        Song temp = d.get(i);
-        playlist.set(i,d.get(j));
-        playlist.set(j,temp);
+      int j = int(random(i+1));
+      Song temp = d.get(i);
+      d.set(i,d.get(j));
+      d.set(j,temp);
     }
+   
 }
