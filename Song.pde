@@ -4,6 +4,7 @@ class Song{
     String artWork; //may be temperory
     SoundFile song;
     PImage cover; //Only temp if art will not be displayed
+    PImage noCover;
 
     //CONSTRUCTOR
     Song(PApplet sketch, String n, String a, String aw){
@@ -12,6 +13,7 @@ class Song{
         this.artWork = aw;
         this.song = new SoundFile(sketch, n);
         this.cover = sketch.loadImage(aw);
+        this.noCover = sketch.loadImage("Image.jpeg");
     }
 
     void displayInfo(PApplet sketch){
@@ -31,11 +33,11 @@ class Song{
         sketch.text("Artist: ", 935, 290);
 
         if(cover != null){
-            sketch.image(cover, 967,20, 200,200);
+            sketch.image(this.cover, 967,20, 200,200);
         }
 
         else{
-            sketch.text("no album cover found", 900,200);
+            sketch.image(this.noCover, 976,20, 200,200);
         }
 
         
@@ -86,7 +88,4 @@ class Song{
       
       sketch.textAlign(LEFT, BASELINE);
     }
-        
-    
-
 }
