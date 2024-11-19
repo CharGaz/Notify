@@ -42,7 +42,7 @@ class AudioVisualizer{
     }
     
     for(int i = 0; i < reducedSpectrum.length; i++){
-      stroke(128, 0, 128 + i);
+      stroke(50+i, 0, 128 + 2*i);
       strokeWeight(3);
       float newI = map(i, 0, (bands - 1)/2, p1, p2);
       float newY;
@@ -62,6 +62,9 @@ class AudioVisualizer{
       //line(newI, height - 50, newI, height - 50 - newY*amp*height);
       newY = constrain(newY*amp*400, 0, 250 + random(0, 5));
       ellipse(newI, height - 150, 1, newY);
+      int tempWidth = 2;
+      if(newI <= p1 + tempWidth || newI >= p2 - tempWidth) tempWidth = 1;
+      circle(newI, height - 150, tempWidth);
 
     }
     

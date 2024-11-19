@@ -59,7 +59,7 @@ void draw(){
   drawUI();
   image(soundImg,880,530, 48,48);
   image(speedImg, 881, 480, 39, 39);
-  image(logo,0,0, 190,190);
+  image(logo,0,45, 190,50);
   drawSongs();
   
   if(playlist.size() > 0){
@@ -149,7 +149,7 @@ void drawUI(){
 }
 
 void drawSongs(){
-  int x = 275; //Setting base x and y values 
+  int x = 250; //Setting base x and y values 
   int y = 50;
 
   for(int i = 0; i < playlist.size(); i++){
@@ -160,7 +160,7 @@ void drawSongs(){
     x += 180; //Moves x over by 200 every time
     
     if(x > 900){
-      x = 275; //When x reaches the end of panal, it resest to the start
+      x = 250; //When x reaches the end of panal, it resest to the start
       y += 75; //When x resets, y moves down to create a new row
     }
   }
