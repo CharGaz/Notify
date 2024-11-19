@@ -18,7 +18,6 @@ class AudioVisualizer{
   
   void update(){
     fft.input(playlist.get(songIndex).song);
-    beatDetector.input(playlist.get(songIndex).song);
     
     if(f%1==0) fft.analyze(spectrum);
     

@@ -1,5 +1,7 @@
 import processing.sound.*;
 import g4p_controls.*;
+import com.github.kiulian.downloader.*;
+
 
 PImage soundImg;
 PImage speedImg;
@@ -10,7 +12,7 @@ boolean playStatus = false;
 boolean displayPlay = true;
 boolean isLooping = false;
 
-
+YoutubeDownloader downloader = new YoutubeDownloader();
 
 ArrayList<ArrayList<Song>> allPlaylists = new ArrayList<ArrayList<Song>>();
 ArrayList<Song> defaultPlaylist = new ArrayList<Song>();
@@ -32,6 +34,7 @@ AudioIn in;
 FFT fft;
 AudioVisualizer audioVisualizer;
 
+String youtubeURL;
 
 void setup(){
   size(1200, 600);
@@ -187,4 +190,8 @@ void shufflePlaylist(ArrayList<Song> d){
       d.set(j,temp);
     }
    
+}
+
+void getYoutube(String url){
+  println(url);
 }
