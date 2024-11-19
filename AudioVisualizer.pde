@@ -1,8 +1,9 @@
 class AudioVisualizer{
   float p1, p2;    // top left and bottom right of graph
   int f = 0;
-  int amp = 20;
+  int amp = 30;
   float lerpIntensity = 0.1;
+  float prevOffset = 0;
   
   float[] prev1 = new float[bands];
   float[] prev2 = new float[bands];
@@ -17,6 +18,7 @@ class AudioVisualizer{
   
   void update(){
     fft.input(playlist.get(songIndex).song);
+    beatDetector.input(playlist.get(songIndex).song);
     
     if(f%1==0) fft.analyze(spectrum);
     
@@ -72,6 +74,15 @@ class AudioVisualizer{
     prev3 = prev2;
     prev2 = prev1;
     prev1 = reducedSpectrum;
+    
+    //if(beatDetector.isBeat()){
+    //  colorOffset = color(random(20, 50));
+    //}
+    //else{
+    //  colorOffset = 0;
+    //}
+    
+    //prevOffset = colorOffset;
     
     f++;
   }
