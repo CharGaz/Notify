@@ -24,6 +24,8 @@ float[] spectrum;
 AudioIn in;
 FFT fft;
 AudioVisualizer audioVisualizer;
+BeatDetector beatDetector;
+color colorOffset = color(0, 0, 0);
 
 
 void setup(){
@@ -48,6 +50,8 @@ void setup(){
     //in.start();
    
     audioVisualizer = new AudioVisualizer(950, width-25);
+    beatDetector = new BeatDetector(this);
+    beatDetector.sensitivity(500);
     
     createGUI();
     //soundImg = loadImage("Audio button.png");
@@ -138,6 +142,11 @@ void drawUI(){
     loop_buttonWhite.setVisible(false);
 
   }
+  
+  //strokeWeight(10);
+  //noFill();
+  //stroke(colorOffset);
+  //rect(0, 0, width, height);
   
 }
 
