@@ -55,7 +55,7 @@ void setup(){
 }
 
 void draw(){
-  background(197, 211, 232);
+  background(158, 163, 210);
   drawUI();
   image(soundImg,880,530, 48,48);
   image(speedImg, 881, 480, 39, 39);
@@ -101,21 +101,25 @@ void setActivePlaylist(int index){ //Switches between the playlists
 
 void drawUI(){
   // left frame
-  fill(208, 232, 197);
+  fill(158, 163, 210);
   strokeWeight(0);
   rect(0, 0, 200, height);
   
   // bottom frame
+  fill(184,186,204);
   rect(200, height - 150, 925, height - 150);
 
+  //Bottom right frame:
+  fill(209,211,234);
+  rect(925,300, width, height);
+
   //right frame
-  fill(208,232,197);
   strokeWeight(0);
   rect(925,0, width, height);
   
   // divisor lines
-  stroke(166, 174, 191);
-  fill(166, 174, 191);
+  stroke(2, 1, 10);
+  fill(2, 1, 10);
   strokeWeight(2);
   rect(200, 0, 5, height);    // left line
   rect(205, height - 150, 723, 5);    // bottom line
@@ -149,19 +153,19 @@ void drawUI(){
 }
 
 void drawSongs(){
-  int x = 250;
+  int x = 250; //Setting base x and y values 
   int y = 50;
-  
-  for (int i = 0; i < playlist.size(); i++){
-    playlist.get(i).printSongs(this, x, y);
+
+  for(int i = 0; i < playlist.size(); i++){
+    playlist.get(i).printSongs(this,x,y); //Inputs all song info into printSongs function
     noFill();
     strokeWeight(5);
-    rect(x-40, y-25, 125, 50);
-    x += 180;
+    rect(x-40,y-25, 125,50);
+    x += 180; //Moves x over by 200 every time
     
     if(x > 900){
-      x = 250;
-      x += 75;
+      x = 250; //When x reaches the end of panal, it resest to the start
+      y += 75; //When x resets, y moves down to create a new row
     }
   }
 }
