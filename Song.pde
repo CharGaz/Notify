@@ -62,12 +62,21 @@ class Song{
     }
 
     void printSongs(PApplet sketch, int x, int y){
-        fill(0);
-        textAlign(CENTER);
-        textSize(16);
-        sketch.text(this.name.substring(0, this.name.length()-4),x,y);
-        textAlign(LEFT);
-
-  }
+      String displayName = this.name.substring(0, this.name.length()-4);
+      
+      float fontSize = 16;
+      sketch.textSize(fontSize);
+      
+      while(sketch.textWidth(displayName) > 105){
+        fontSize -= 0.5;
+        sketch.textSize(fontSize);
+      }
+      
+      sketch.fill(0);
+      sketch.textAlign(CENTER, CENTER);
+      sketch.text(displayName, x+20, y);
+      
+      sketch.textAlign(LEFT, BASELINE);
+    }
 
 }
