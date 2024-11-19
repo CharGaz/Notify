@@ -10,16 +10,24 @@ class Song{
         this.name = n;
         this.album = a;
         this.artWork = aw;
-        this.song = new SoundFile(sketch, n, false);
+        this.song = new SoundFile(sketch, n);
         this.cover = sketch.loadImage(aw);
     }
 
     void displayInfo(PApplet sketch){
-        
+        String songName = this.name.substring(0,this.name.length()-4);
+        float fontSize = 20; //base font size
+        sketch.textSize(fontSize);
+
+        while(sketch.textWidth(songName) > 215 ){ 
+            fontSize -= 0.5; //Makes font size smaller until text fits into the rectangle
+            sketch.textSize(fontSize);
+        }
+
+        sketch.textAlign(LEFT, BASELINE);
         fill(0);
-        textSize(20);
         sketch.text("Album: " + this.album, 935,240);
-        sketch.text("Song: " + this.name.substring(0,this.name.length()-4), 935,265);
+        sketch.text("Song: " + songName, 935,265);
         sketch.text("Artist: ", 935, 290);
 
         if(cover != null){
@@ -78,5 +86,4 @@ class Song{
       
       sketch.textAlign(LEFT, BASELINE);
     }
-
 }
