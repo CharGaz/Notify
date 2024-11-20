@@ -9,7 +9,6 @@ void initializePlaylists(){
   defaultPlaylist.add(new Song(this, "Darling I.mp3","Chromakopia","Chromakopia Album.jpeg" ));
   defaultPlaylist.add(new Song(this,"St Chroma.mp3","Chromakopia","Chromakopia Album.jpeg"));
   defaultPlaylist.add(new Song(this,"See You Again.mp3","Flower Boy","Flower Boy.jpeg"));
-  defaultPlaylist.add(new Song(this,"911: Mr lonely.mp3","Flower Boy","Flower Boy.jpeg"));
   defaultPlaylist.add(new Song(this,"Pink White.mp3","Blonde","Blonde.jpeg"));
   defaultPlaylist.add(new Song(this,"Goodbye Angels.mp3","The Getaway","The Getaway.jpeg"));
   defaultPlaylist.add(new Song(this,"Sick Love.mp3","The Getaway","The Getaway.jpeg"));
@@ -24,7 +23,6 @@ void initializePlaylists(){
   playlist1.add(new Song(this,"Potholderz.mp3", "MM Food","MM Food.jpeg" ));
   playlist1.add(new Song(this,"Black Summer.mp3","Unlimited Love","Unlimited Love.jpeg"));
   playlist1.add(new Song(this,"St Chroma.mp3","Chromakopia","Chromakopia Album.jpeg"));
-  playlist1.add(new Song(this,"911: Mr lonely.mp3","Flower Boy","Flower Boy.jpeg"));
   playlist1.add(new Song(this, "Crosshairs.mp3", "Mouse and the Mask","Mouse and the Mask.jpeg" ));
   playlist1.add(new Song(this,"Pink White.mp3","Blonde","Blonde.jpeg"));
 

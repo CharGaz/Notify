@@ -1,7 +1,5 @@
 import processing.sound.*;
 import g4p_controls.*;
-import com.github.kiulian.downloader.*;
-
 
 PImage soundImg;
 PImage speedImg;
@@ -12,7 +10,7 @@ boolean playStatus = false;
 boolean displayPlay = true;
 boolean isLooping = false;
 
-YoutubeDownloader downloader = new YoutubeDownloader();
+//YoutubeDownloader downloader = new YoutubeDownloader();
 
 ArrayList<ArrayList<Song>> allPlaylists = new ArrayList<ArrayList<Song>>();
 ArrayList<Song> defaultPlaylist = new ArrayList<Song>();
@@ -58,6 +56,7 @@ void setup(){
 }
 
 void draw(){
+  for(Song song: defaultPlaylist) println(song.name);
   background(158, 163, 210);
   drawUI();
   image(soundImg,880,530, 48,48);
@@ -193,5 +192,18 @@ void shufflePlaylist(ArrayList<Song> d){
 }
 
 void getYoutube(String url){
-  println(url);
+  try {
+    String downloadPath = sketchPath("data");
+    String[] commands = {"/usr/local/bin/yt-dlp", "-o", downloadPath + "/%(title)s" + ".mp3", "--extract-audio", url};
+    ProcessBuilder processBuilder = new ProcessBuilder(commands);
+    processBuilder.directory(new File(downloadPath));
+    processBuilder.start();
+    
+    defaultPlaylist.add(new Song(this, commands[2],"ALBUM", "IMAGE.jpeg"));
+     
+
+} 
+  catch (IOException e) {
+    println("Error: " + e.getMessage()); 
+  }
 }
