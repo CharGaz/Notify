@@ -1,5 +1,6 @@
 import processing.sound.*;
 import g4p_controls.*;
+import java.io.File;
 
 PImage soundImg;
 PImage speedImg;
@@ -56,7 +57,7 @@ void setup(){
 }
 
 void draw(){
-  for(Song song: defaultPlaylist) println(song.name);
+  //for(Song song: defaultPlaylist) println(song.name);
   background(158, 163, 210);
   drawUI();
   image(soundImg,880,530, 48,48);
@@ -191,7 +192,29 @@ void shufflePlaylist(ArrayList<Song> d){
    
 }
 
-void getYoutube(String url){
+void getYoutubeWindows(String url){
+  try {
+    String downloadPath = sketchPath("data");
+    String[] commands = {"yt-dlp", "-o", downloadPath + "/%(title)s.%(ext)s", "--extract-audio", "--audio-format", "mp3", "--audio-quality", "0", url};    
+    ProcessBuilder processBuilder = new ProcessBuilder(commands);
+    processBuilder.directory(new File(downloadPath));
+    Process process = processBuilder.start();
+    process.waitFor();
+    
+    Thread.sleep(500);
+    
+    regenerateDefaultPlaylist();
+
+  } 
+  catch (IOException e) {
+    println(e.getMessage()); 
+  }
+  catch (InterruptedException e){
+    println(e.getMessage());
+  }
+}
+
+void getYoutubeMac(String url){
   try {
     String downloadPath = sketchPath("data");
     String[] commands = {"/usr/local/bin/yt-dlp", "-o", downloadPath + "/%(title)s" + ".mp3", "--extract-audio", url};
@@ -199,11 +222,33 @@ void getYoutube(String url){
     processBuilder.directory(new File(downloadPath));
     processBuilder.start();
     
-    defaultPlaylist.add(new Song(this, commands[2],"ALBUM", "IMAGE.jpeg"));
      
 
 } 
   catch (IOException e) {
     println("Error: " + e.getMessage()); 
+  }
+}
+
+
+
+void regenerateDefaultPlaylist(){
+  File[] songsDataDir = new File(sketchPath("data")).listFiles();
+  for(File file: songsDataDir){
+    if(file.getName().endsWith(".mp3")){
+      boolean fileFound = false;
+      for(Song song: defaultPlaylist){
+        println(file.getName() + " vs " + song.name);
+        if(file.getName().equals(song.name)){
+          fileFound = true;
+        }
+      }
+      if(!fileFound){
+        Song tempSong = new Song(this, file.getName(), "TEMPALBUM", "IMAGE");
+        defaultPlaylist.add(tempSong);
+        println(tempSong);
+        println(tempSong.name);
+      }
+    } 
   }
 }
