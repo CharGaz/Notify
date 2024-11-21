@@ -195,7 +195,7 @@ void shufflePlaylist(ArrayList<Song> d){
 void getYoutubeWindows(String url){
   try {
     String downloadPath = sketchPath("data");
-    String[] commands = {"yt-dlp", "-o", downloadPath + "/%(title)s.%(ext)s", "--extract-audio", "--audio-format", "mp3", "--audio-quality", "0", url};    
+    String[] commands = {"yt-dlp", "-o", downloadPath + "/%(title)s.%(ext)s", "--extract-audio", "--audio-format", "mp3", url};    
     ProcessBuilder processBuilder = new ProcessBuilder(commands);
     processBuilder.directory(new File(downloadPath));
     Process process = processBuilder.start();
@@ -217,7 +217,7 @@ void getYoutubeWindows(String url){
 void getYoutubeMac(String url){
   try {
     String downloadPath = sketchPath("data"); 
-    String[] commands = {"/usr/local/bin/yt-dlp", "-o", downloadPath + "/%(title)s.%(ext)s", "--embed-thumbnail", "--extract-audio", "--audio-format", "mp3", url};
+    String[] commands = {"/usr/local/bin/yt-dlp", "-o", downloadPath + "/%(title)s.%(ext)s", "--extract-audio", "--audio-format", "mp3", url};
     ProcessBuilder processBuilder = new ProcessBuilder(commands);
     processBuilder.directory(new File(downloadPath));
     Process process = processBuilder.start();
@@ -248,7 +248,8 @@ void regenerateDefaultPlaylist(){
       if(file.getName().endsWith(".webm")){
         String inputFile = file.getAbsolutePath();
         String outputFile = inputFile.substring(0, inputFile.length() - 5) + ".mp3";
-        String[] commands = {"ffmpeg", "-i", "'" + inputFile + "'", "'" + outputFile + "'"};        
+        // TEMP FILE NAME  
+        String[] commands = {"C:\\Users\\jeffw\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-7.1-full_build\\bin\\ffmpeg.exe", "-i", inputFile, outputFile};        
         ProcessBuilder processBuilder = new ProcessBuilder(commands);
         processBuilder.directory(new File(downloadPath));
         Process process = processBuilder.start();
@@ -271,19 +272,15 @@ void regenerateDefaultPlaylist(){
     if(file.getName().endsWith(".mp3")){
       boolean fileFound = false;
       for(Song song: defaultPlaylist){
-        println(file.getName() + " vs " + song.name);
         if(file.getName().equals(song.name)){
           fileFound = true;
         }
       }
       if(!fileFound){
-        Song tempSong = new Song(this, file.getName(), "TEMPALBUM", "IMAGE");
-        //defaultPlaylist.add(tempSong);
-        //println(tempSong);
-        //println(tempSong.name);
+        Song tempSong = new Song(this, file.getName(), "TEST ALBUM", "Image.jpeg");
+        defaultPlaylist.add(tempSong);
+       
       }
     } 
   }
-  
-  //TEST IN TERMINAL
 }

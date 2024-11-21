@@ -1,7 +1,7 @@
 class AudioVisualizer{
   float p1, p2;    // top left and bottom right of graph
   int f = 0;
-  int amp = 30;
+  int amp = 40;
   float lerpIntensity = 0.1;
   float prevOffset = 0;
   
@@ -17,9 +17,9 @@ class AudioVisualizer{
   }
   
   void update(){
-    //fft.input(playlist.get(songIndex).song);
+    fft.input(playlist.get(songIndex).song);
     
-    //if(f%1==0) fft.analyze(spectrum);
+    if(f%1==0) fft.analyze(spectrum);
     
     float highestBand = 0;
     float lowestBand = 0;
