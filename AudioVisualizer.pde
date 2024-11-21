@@ -17,9 +17,9 @@ class AudioVisualizer{
   }
   
   void update(){
-    fft.input(playlist.get(songIndex).song);
+    //fft.input(playlist.get(songIndex).song);
     
-    if(f%1==0) fft.analyze(spectrum);
+    //if(f%1==0) fft.analyze(spectrum);
     
     float highestBand = 0;
     float lowestBand = 0;
