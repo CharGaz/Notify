@@ -1,6 +1,7 @@
 import processing.sound.*;
 import g4p_controls.*;
 
+
 PImage soundImg;
 PImage speedImg;
 PImage logo;
@@ -14,14 +15,14 @@ boolean create = false;
 
 
 
+HashMap<String, ArrayList<Song>> playlists = new HashMap<>();
 ArrayList<ArrayList<Song>> allPlaylists = new ArrayList<ArrayList<Song>>();
-ArrayList<String> playlistsName = new ArrayList<String>();
 ArrayList<Song> defaultPlaylist = new ArrayList<Song>();
 ArrayList<Song> playlist1 = new ArrayList<Song>();
 ArrayList<Song> playlist2 = new ArrayList<Song>();
 
-
 ArrayList<Song> playlist;
+ArrayList<Song> selectedSongs = new ArrayList<Song>();
 
 ArrayList<String> displayNames = new ArrayList<String>();
 
@@ -30,6 +31,7 @@ ArrayList<String> displayNames = new ArrayList<String>();
 int songIndex = 0;
 int loopIndex = 1;
 int selectedIndex;
+int playlistCounter = 3;
 
 float playBackSpeed = 1.0;
 float setVolume = 0.9;
@@ -174,10 +176,14 @@ void drawUI(){
  
   else if(create){
     returnButton.setVisible(true);
-    playlistCreate();
+    confirmButton.setVisible(true);
+    playlistCreateDisplay();
+    
+
   }
   else{
     returnButton.setVisible(false);
+    confirmButton.setVisible(false);
   }
 }
 

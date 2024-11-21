@@ -16,21 +16,21 @@
  */
 
 public void playClicked(GImageButton source, GEvent event) { //_CODE_:play_button:242900:
-  if(!delete){
+  if(!delete && !create){
     playSong = true;
     displayPlay = false;
   } 
 } 
 
 public void pauseClicked(GImageButton source, GEvent event) { //_CODE_:pause_button:527890:
-  if(!delete){
+  if(!delete && !create){
     playSong = false;
     displayPlay = true;
   }
 } 
 
 public void fastfowardClicked(GImageButton source, GEvent event) { //_CODE_:fast_foward_button:334872:
-  if(!delete){
+  if(!delete && !create){
     playlist.get(songIndex).stopSong();
     if(!isLooping){
       songIndex = (songIndex + 1) % playlist.size();
@@ -46,7 +46,7 @@ public void fastfowardClicked(GImageButton source, GEvent event) { //_CODE_:fast
 } //_CODE_:fast_foward_button:334872:
 
 public void rewindClicked(GImageButton source, GEvent event) { //_CODE_:rewind_button:710650:
-  if(!delete){
+  if(!delete && !create){
     playlist.get(songIndex).stopSong();
     songIndex = (songIndex-1 + playlist.size()) % playlist.size();
     playStatus = false;
@@ -54,7 +54,7 @@ public void rewindClicked(GImageButton source, GEvent event) { //_CODE_:rewind_b
 } 
 
 public void loopClicked(GImageButton source, GEvent event) { //Loops and unloops song
-  if(!delete){
+  if(!delete && !create){
     loopIndex += 1;
     if((loopIndex % 2) == 0){
       isLooping = true;
@@ -68,7 +68,7 @@ public void loopClicked(GImageButton source, GEvent event) { //Loops and unloops
 } 
 
 public void whiteLoopClicked(GImageButton source, GEvent event) { //Loops and unloops song
-  if(!delete){
+  if(!delete && !create){
     loopIndex += 1;
 
     if((loopIndex % 2) == 0){
@@ -82,7 +82,7 @@ public void whiteLoopClicked(GImageButton source, GEvent event) { //Loops and un
 
 
 public void shuffleClicked(GImageButton source, GEvent event) { //_CODE_:shuff_button:228625:
-  if(!delete){
+  if(!delete && !create){
     if(playlist.get(songIndex).song.isPlaying()){
       playlist.get(songIndex).stopSong();
     }
@@ -100,7 +100,7 @@ public void shuffleClicked(GImageButton source, GEvent event) { //_CODE_:shuff_b
 } 
 
 public void speedChanged(GSlider source, GEvent event) { //_CODE_:speed_slider:867952:
-  if(!delete){
+  if(!delete && !create){
     float displaySpeed = speed_slider.getValueF(); //getting values from the slider
 
     playBackSpeed = map(displaySpeed, 0.0,2, 0.6, 1.4);
@@ -112,7 +112,7 @@ public void speedChanged(GSlider source, GEvent event) { //_CODE_:speed_slider:8
 } 
 
 public void volumeChanged(GSlider source, GEvent event) { //_CODE_:volume:779657:
-  if(!delete){
+  if(!delete && !create){
     float displayVolume = volume.getValueF();
 
     setVolume = map(displayVolume, 0,10, 0.0,3.0);
@@ -124,35 +124,59 @@ public void volumeChanged(GSlider source, GEvent event) { //_CODE_:volume:779657
 } 
 
 public void show_playlistClicked(GDropList source, GEvent event) { //_CODE_:dropList1:447654:
-  if(!delete){
-    int selectedIndex = source.getSelectedIndex();
-    println("Selected playlist index: " + selectedIndex);
+  if(!delete || !create){
+    selectedIndex = source.getSelectedIndex();
+  
     setActivePlaylist(selectedIndex);
   }
 } //_CODE_:dropList1:447654:
 
  public void youtubeUrlChanged(GTextField source, GEvent event) { //_CODE_:YoutubeUrl:779815:
-   println("YoutubeUrl - GTextField >> GEvent." + event + " @ " + millis());
    youtubeURL = youtubeUrl.getText();
  } //_CODE_:YoutubeUrl:779815:
 
  public void youtubeCommitClicked(GButton source, GEvent event) { //_CODE_:youtubeCommit:244925:
-   println("youtubeCommit - GButton >> GEvent." + event + " @ " + millis());
    getYoutube(youtubeURL);
  } //_CODE_:youtubeCommit:244925:
 
-public void editPlaylistClicked(GButton source, GEvent event) { //_CODE_:createPlaylist:727161:
-  println("createPlaylist - GButton >> GEvent." + event + " @ " + millis());
-} //_CODE_:createPlaylist:727161:
+public void createPlaylistClicked(GButton source, GEvent event) { //_CODE_:createPlaylist:727161:
+   if(!delete){
+     setActivePlaylist(0);
+     create = true;
+
+   }
+   
+  } //_CODE_:createPlaylist:727161:
 
 public void deletePlaylistClicked(GButton source, GEvent event) { //_CODE_:deletePlaylist:748042:
-  delete = true;
-  playSong = false;
-  displayPlay = true;
+  if(!create){
+   delete = true;
+   playSong = false;
+   displayPlay = true;
+
+  }
 } 
 
 public void returnClicked(GButton source, GEvent event){
   delete = false;
+  create = false;
+  if(selectedIndex == allPlaylists.size()){
+    setActivePlaylist(0);
+  }
+  else{
+    setActivePlaylist(selectedIndex);
+  }
+  
+
+  
+}
+
+public void confirmButtonClicked(GButton source, GEvent event){
+  delete = false;
+  create = false;
+
+  createNewPlaylist();
+  setActivePlaylist(selectedIndex);
 }
 
 
@@ -198,26 +222,28 @@ public void createGUI(){
   volume.setOpaque(false);
   volume.addEventHandler(this, "volumeChanged");
   show_playlist = new GDropList(this, 30, 200, 150, 150, allPlaylists.size(), 15);
-  show_playlist.setItems(new String[] {"All Songs", "Playlist 1", "Playlist 2", "Playlist 3", "Playlist 4"},0);
+  show_playlist.setItems(displayNames,0);
   show_playlist.addEventHandler(this, "show_playlistClicked");
-
-  editPlaylist = new GButton(this, 30, 275, 150, 25);
-  editPlaylist.setText("Edit Playlist"); 
-  editPlaylist.addEventHandler(this, "editPlaylistClicked");
+  createPlaylist = new GButton(this, 30, 275, 150, 25);
+  createPlaylist.setText("Create Playlist"); 
+  createPlaylist.addEventHandler(this, "createPlaylistClicked");
   deletePlaylist = new GButton(this, 30, 325, 150, 25);
   deletePlaylist.setText("Delete Playlist");
   deletePlaylist.addEventHandler(this, "deletePlaylistClicked");
-
   returnButton = new GButton(this, 220, 415, 100, 25);
   returnButton.setText("Return");
   returnButton.addEventHandler(this,"returnClicked");
-  youtubeUrl = new GTextField(this, 173, 64, 120, 30, G4P.SCROLLBARS_NONE);
+  confirmButton = new GButton(this, 815, 415, 100, 25);
+  confirmButton.setText("Confirm");
+  confirmButton.addEventHandler(this, "confirmButtonClicked");
+  youtubeUrl = new GTextField(this, 30, 425, 150, 25, G4P.SCROLLBARS_NONE);
   youtubeUrl.setPromptText("Enter Url here");
   youtubeUrl.setOpaque(true);
   youtubeUrl.addEventHandler(this, "youtubeUrlChanged");
-  youtubeCommit = new GButton(this, 191, 140, 80, 30);
+  youtubeCommit = new GButton(this, 30, 475, 150, 25);
   youtubeCommit.setText("Youtube Commit");
   youtubeCommit.addEventHandler(this, "youtubeCommitClicked");
+ 
 }
 
 
@@ -234,10 +260,9 @@ GSlider speed_slider;
 GSlider volume; 
 GDropList show_playlist; 
 GImageButton loop_buttonWhite; 
-// GTextField youtubeUrl; 
-// GButton youtubeCommit; 
-GButton editPlaylist; 
+GButton createPlaylist; 
 GButton deletePlaylist; 
 GButton returnButton;
 GTextField youtubeUrl; 
 GButton youtubeCommit; 
+GButton confirmButton;

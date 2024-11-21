@@ -1,9 +1,10 @@
 class Song{
     String name;
-    String album; //may be temperory
-    String artWork; //may be temperory
+    String album; 
+    String artWork;
+    boolean clicked;
     SoundFile song;
-    PImage cover; //Only temp if art will not be displayed
+    PImage cover; 
     PImage noCover;
 
     //CONSTRUCTOR
@@ -11,6 +12,7 @@ class Song{
         this.name = n;
         this.album = a;
         this.artWork = aw;
+        this.clicked = false;
         this.song = new SoundFile(sketch, n);
         this.cover = sketch.loadImage(aw);
         this.noCover = sketch.loadImage("Image.jpeg");
@@ -37,7 +39,7 @@ class Song{
         }
 
         else{
-            sketch.image(this.noCover, 976,20, 200,200);
+            sketch.image(this.noCover,967,20, 200,200);
         }
 
         
@@ -45,15 +47,11 @@ class Song{
 
     void playSong(float speed, float volume){
         if(playSong){
-
-            
-
             if(!this.song.isPlaying() && !playStatus){
                 playStatus = true;
                 this.song.play(speed,volume);
             }
-        }
-            
+        } 
 
         else if(!playSong && playStatus){
             this.song.pause();
@@ -72,20 +70,27 @@ class Song{
     }
 
     void printSongs(PApplet sketch, int x, int y){
-      String displayName = this.name.substring(0, this.name.length()-4);
-      
-      float fontSize = 16;
-      sketch.textSize(fontSize);
-      
-      while(sketch.textWidth(displayName) > 105){
-        fontSize -= 0.5;
+        
+        String displayName = this.name.substring(0, this.name.length()-4);
+
+        float fontSize = 16; //base font size
         sketch.textSize(fontSize);
-      }
-      
-      sketch.fill(0);
-      sketch.textAlign(CENTER, CENTER);
-      sketch.text(displayName, x+20, y);
-      
-      sketch.textAlign(LEFT, BASELINE);
+
+        while(sketch.textWidth(displayName) > 105 ){ //100 is the width of the rect - the edge of rect 
+            fontSize -= 0.5; //Makes font size smaller until text fits into the rectangle
+            sketch.textSize(fontSize);
+        }
+        if(this.clicked && create){
+            sketch.fill(0,255,0);
+        }
+        else{
+            sketch.fill(0);
+        }
+        
+        sketch.textAlign(CENTER,CENTER); //Centers text in the rectangle
+        sketch.text(displayName,x+20,y);
+
+        sketch.textAlign(LEFT, BASELINE);
     }
+
 }

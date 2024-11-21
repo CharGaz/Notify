@@ -1,9 +1,8 @@
 class AudioVisualizer{
   float p1, p2;    // top left and bottom right of graph
   int f = 0;
-  int amp = 30;
+  int amp = 20;
   float lerpIntensity = 0.1;
-  float prevOffset = 0;
   
   float[] prev1 = new float[bands];
   float[] prev2 = new float[bands];
@@ -73,15 +72,6 @@ class AudioVisualizer{
     prev3 = prev2;
     prev2 = prev1;
     prev1 = reducedSpectrum;
-    
-    //if(beatDetector.isBeat()){
-    //  colorOffset = color(random(20, 50));
-    //}
-    //else{
-    //  colorOffset = 0;
-    //}
-    
-    //prevOffset = colorOffset;
     
     f++;
   }
