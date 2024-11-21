@@ -10,6 +10,7 @@ boolean playStatus = false;
 boolean displayPlay = true;
 boolean isLooping = false;
 boolean delete = false;
+boolean create = false;
 
 
 
@@ -18,15 +19,17 @@ ArrayList<String> playlistsName = new ArrayList<String>();
 ArrayList<Song> defaultPlaylist = new ArrayList<Song>();
 ArrayList<Song> playlist1 = new ArrayList<Song>();
 ArrayList<Song> playlist2 = new ArrayList<Song>();
-ArrayList<Song> playlist3 = new ArrayList<Song>();
-ArrayList<Song> playlist4 = new ArrayList<Song>();
+
 
 ArrayList<Song> playlist;
+
+ArrayList<String> displayNames = new ArrayList<String>();
 
 
 
 int songIndex = 0;
 int loopIndex = 1;
+int selectedIndex;
 
 float playBackSpeed = 1.0;
 float setVolume = 0.9;
@@ -38,6 +41,7 @@ AudioIn in;
 FFT fft;
 AudioVisualizer audioVisualizer;
 
+String youtubeURL;
 
 void setup(){
   size(1200, 600);
@@ -64,7 +68,7 @@ void setup(){
 }
 
 void draw(){
-  
+  for(Song song: defaultPlaylist) println(song.name);
   background(158, 163, 210);
   drawUI();
   image(soundImg,880,530, 48,48);
@@ -167,12 +171,14 @@ void drawUI(){
     returnButton.setVisible(true);
     deletePlaylist();
   }
+ 
+  else if(create){
+    returnButton.setVisible(true);
+    playlistCreate();
+  }
   else{
     returnButton.setVisible(false);
   }
-
-
-  
 }
 
 void drawSongs(){
@@ -195,3 +201,19 @@ void drawSongs(){
   }
 }
 
+void getYoutube(String url){
+  try {
+    String downloadPath = sketchPath("data");
+    String[] commands = {"/usr/local/bin/yt-dlp", "-o", downloadPath + "/%(title)s" + ".mp3", "--extract-audio", url};
+    ProcessBuilder processBuilder = new ProcessBuilder(commands);
+    processBuilder.directory(new File(downloadPath));
+    processBuilder.start();
+    
+    defaultPlaylist.add(new Song(this, commands[2],"ALBUM", "Image.jpeg"));
+     
+
+} 
+  catch (IOException e) {
+    println("Error: " + e.getMessage()); 
+  }
+}

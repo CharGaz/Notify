@@ -131,13 +131,15 @@ public void show_playlistClicked(GDropList source, GEvent event) { //_CODE_:drop
   }
 } //_CODE_:dropList1:447654:
 
-// public void youtubeUrlChanged(GTextField source, GEvent event) { //_CODE_:YoutubeUrl:779815:
-//   println("YoutubeUrl - GTextField >> GEvent." + event + " @ " + millis());
-// } //_CODE_:YoutubeUrl:779815:
+ public void youtubeUrlChanged(GTextField source, GEvent event) { //_CODE_:YoutubeUrl:779815:
+   println("YoutubeUrl - GTextField >> GEvent." + event + " @ " + millis());
+   youtubeURL = youtubeUrl.getText();
+ } //_CODE_:YoutubeUrl:779815:
 
-// public void youtubeCommitClicked(GButton source, GEvent event) { //_CODE_:youtubeCommit:244925:
-//   println("youtubeCommit - GButton >> GEvent." + event + " @ " + millis());
-// } //_CODE_:youtubeCommit:244925:
+ public void youtubeCommitClicked(GButton source, GEvent event) { //_CODE_:youtubeCommit:244925:
+   println("youtubeCommit - GButton >> GEvent." + event + " @ " + millis());
+   getYoutube(youtubeURL);
+ } //_CODE_:youtubeCommit:244925:
 
 public void editPlaylistClicked(GButton source, GEvent event) { //_CODE_:createPlaylist:727161:
   println("createPlaylist - GButton >> GEvent." + event + " @ " + millis());
@@ -198,13 +200,7 @@ public void createGUI(){
   show_playlist = new GDropList(this, 30, 200, 150, 150, allPlaylists.size(), 15);
   show_playlist.setItems(new String[] {"All Songs", "Playlist 1", "Playlist 2", "Playlist 3", "Playlist 4"},0);
   show_playlist.addEventHandler(this, "show_playlistClicked");
-//   youtubeUrl = new GTextField(this, 173, 64, 120, 30, G4P.SCROLLBARS_NONE);
-//   youtubeUrl.setPromptText("Enter Url here");
-//   youtubeUrl.setOpaque(true);
-//   youtubeUrl.addEventHandler(this, "youtubeUrlChanged");
-//   youtubeCommit = new GButton(this, 191, 140, 80, 30);
-//   youtubeCommit.setText("Youtube Commit");
-//   youtubeCommit.addEventHandler(this, "youtubeCommitClicked");
+
   editPlaylist = new GButton(this, 30, 275, 150, 25);
   editPlaylist.setText("Edit Playlist"); 
   editPlaylist.addEventHandler(this, "editPlaylistClicked");
@@ -215,6 +211,13 @@ public void createGUI(){
   returnButton = new GButton(this, 220, 415, 100, 25);
   returnButton.setText("Return");
   returnButton.addEventHandler(this,"returnClicked");
+  youtubeUrl = new GTextField(this, 173, 64, 120, 30, G4P.SCROLLBARS_NONE);
+  youtubeUrl.setPromptText("Enter Url here");
+  youtubeUrl.setOpaque(true);
+  youtubeUrl.addEventHandler(this, "youtubeUrlChanged");
+  youtubeCommit = new GButton(this, 191, 140, 80, 30);
+  youtubeCommit.setText("Youtube Commit");
+  youtubeCommit.addEventHandler(this, "youtubeCommitClicked");
 }
 
 
@@ -236,3 +239,5 @@ GImageButton loop_buttonWhite;
 GButton editPlaylist; 
 GButton deletePlaylist; 
 GButton returnButton;
+GTextField youtubeUrl; 
+GButton youtubeCommit; 
