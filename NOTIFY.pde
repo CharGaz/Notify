@@ -1,6 +1,7 @@
 import processing.sound.*;
 import g4p_controls.*;
 import java.io.File;
+import java.io.InputStreamReader;
 
 
 PImage soundImg;
@@ -266,7 +267,17 @@ void regenerateDefaultPlaylist(){
         String inputFile = file.getAbsolutePath();
         String outputFile = inputFile.substring(0, inputFile.length() - 5) + ".mp3";
         // TEMP FILE NAME  
-        String[] commands = {"C:\\Users\\jeffw\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-7.1-full_build\\bin\\ffmpeg.exe", "-i", inputFile, outputFile};        
+
+        String[] findCommands = {"which", "ffmpeg"};
+        ProcessBuilder findFfmpeg = new ProcessBuilder(findCommands);
+        Process runFfmpeg = findFfmpeg.start();
+        BufferedReader cmdOutput = new BufferedReader(new InputStreamReader(runFfmpeg.getInputStream()));
+        String ffmpegSource = cmdOutput.readLine(); 
+        println(ffmpegSource);
+        //String ffmpegSource = "/usr/local/bin/ffmpeg";
+        //"C:\\Users\\jeffw\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-7.1-full_build\\bin\\ffmpeg.exe"
+       
+        String[] commands = {ffmpegSource, "-i", inputFile, outputFile};        
         ProcessBuilder processBuilder = new ProcessBuilder(commands);
         processBuilder.directory(new File(downloadPath));
         Process process = processBuilder.start();
