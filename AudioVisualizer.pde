@@ -16,9 +16,9 @@ class AudioVisualizer{
   }
   
   void update(){
-    //fft.input(playlist.get(songIndex).song);
+    fft.input(playlist.get(songIndex).song);
     
-    //if(f%1==0) fft.analyze(spectrum);
+    if(f%1==0) fft.analyze(spectrum);
     
     float highestBand = 0;
     float lowestBand = 0;
@@ -46,20 +46,16 @@ class AudioVisualizer{
       strokeWeight(3);
       float newI = map(i, 0, (bands - 1)/2, p1, p2);
       float newY;
-      //float newY = map(height - 50 - spectrum[i]*height*10, 0, height - 50 - spectrum[i]*height*10, 0, height - 50 - highestBand*height*10);
       
       if(prev1 != null && prev2 != null && prev3 != null && prev4 != null){
-        //newY = height - 50 - (reducedSpectrum[i]*height*amp + prev1[i]*height*amp + prev2[i]*height*amp + prev3[i]*height*amp + prev4[i]*height*amp) / 5;
         newY = (reducedSpectrum[i] + prev1[i] + prev2[i] + prev3[i] + prev4[i]) / 5;
 
       }
       else{
-        //newY = height - 50 - reducedSpectrum[i]*height*amp;
         newY = reducedSpectrum[i];
 
       }
       strokeWeight(1);
-      //line(newI, height - 50, newI, height - 50 - newY*amp*height);
       newY = constrain(newY*amp*400, 0, 250 + random(0, 5));
       ellipse(newI, height - 150, 1, newY);
       int tempWidth = 2;

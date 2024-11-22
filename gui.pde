@@ -16,29 +16,29 @@
  */
 
 public void playClicked(GImageButton source, GEvent event) { //_CODE_:play_button:242900:
-  if(!delete && !create){
-    playSong = true;
-    displayPlay = false;
+  if(!delete && !create){ //Cheking if delete or create screen are being displayed --> will not run if one of them are
+    playSong = true; //Playing the song when true
+    displayPlay = false; //Switiching the play button to a pause button
   } 
 } 
 
 public void pauseClicked(GImageButton source, GEvent event) { //_CODE_:pause_button:527890:
-  if(!delete && !create){
-    playSong = false;
-    displayPlay = true;
+  if(!delete && !create){ //Cheking if delete or create screen are being displayed --> will not run if one of them are
+    playSong = false; //Pausing the song when pressed
+    displayPlay = true; //Switiching the pause button to a play button
   }
 } 
 
 public void fastfowardClicked(GImageButton source, GEvent event) { //_CODE_:fast_foward_button:334872:
-  if(!delete && !create){
-    playlist.get(songIndex).stopSong();
-    if(!isLooping){
-      songIndex = (songIndex + 1) % playlist.size();
+  if(!delete && !create){ //Cheking if delete or create screen are being displayed --> will not run if one of them are
+    playlist.get(songIndex).stopSong(); //getting the current index of playlist(Checking wich song is being played) and stoping the song
+    
+    if(!isLooping){ //Cheking if the the user wants the song to being looping or not
+      songIndex = (songIndex + 1) % playlist.size(); //if not, then the song index gets added by one(goes to next song)(% playlist.size is to keep the playlist looping when it reaches the last song)
     }
 
     else{
-      //playlist.get(songIndex).song.jump(0.0);
-      songIndex = (songIndex) % playlist.size();
+      songIndex = (songIndex) % playlist.size(); //if looping, then song restarts
     }
     
     playStatus = false;
@@ -46,29 +46,30 @@ public void fastfowardClicked(GImageButton source, GEvent event) { //_CODE_:fast
 } //_CODE_:fast_foward_button:334872:
 
 public void rewindClicked(GImageButton source, GEvent event) { //_CODE_:rewind_button:710650:
-  if(!delete && !create){
-    playlist.get(songIndex).stopSong();
-    songIndex = (songIndex-1 + playlist.size()) % playlist.size();
+  if(!delete && !create){ //Cheking if delete or create screen are being displayed --> will not run if one of them are
+    playlist.get(songIndex).stopSong(); //Stopping the current song
+    songIndex = (songIndex-1 + playlist.size()) % playlist.size(); //Setting the songIndex to the last song to play the prevoius song --> if the song is the first in que, then the rewined song will be the last in que
     playStatus = false;
   }
 } 
 
 public void loopClicked(GImageButton source, GEvent event) { //Loops and unloops song
-  if(!delete && !create){
-    loopIndex += 1;
-    if((loopIndex % 2) == 0){
-      isLooping = true;
+  if(!delete && !create){ //Cheking if delete or create screen are being displayed --> will not run if one of them are
+    loopIndex += 1; 
+    if((loopIndex % 2) == 0){ //Cheking if loop index is odd or even as to be able to loop and unloop with one button
+      isLooping = true; //Sets looping to true and turns the button white to indicate looping
       
     }
     else{
-      isLooping = false;
+      isLooping = false; //Sets looping to false and turns button back to black to indicate NO looping
     }
   }
   
 } 
 
+//Need a second button that does the same thing as before but this one is white to show the user that looping is true
 public void whiteLoopClicked(GImageButton source, GEvent event) { //Loops and unloops song
-  if(!delete && !create){
+  if(!delete && !create){ //Cheking if delete or create screen are being displayed --> will not run if one of them are
     loopIndex += 1;
 
     if((loopIndex % 2) == 0){
@@ -82,102 +83,102 @@ public void whiteLoopClicked(GImageButton source, GEvent event) { //Loops and un
 
 
 public void shuffleClicked(GImageButton source, GEvent event) { //_CODE_:shuff_button:228625:
-  if(!delete && !create){
-    if(playlist.get(songIndex).song.isPlaying()){
-      playlist.get(songIndex).stopSong();
+  if(!delete && !create){ //Cheking if delete or create screen are being displayed --> will not run if one of them are
+    if(playlist.get(songIndex).song.isPlaying()){ //Checks to see if the current selected song is playing
+      playlist.get(songIndex).stopSong(); //Stops the song if it is being played 
     }
 
-    shufflePlaylist(playlist);
-    songIndex = 0;
+    shufflePlaylist(playlist); //Puts playlist to be shuffledn
+    songIndex = 0; //Resets the song index to 0 --> resets the que 
 
-    playStatus = false;
+    //When shuffle is pressed it also plays the songs acting like a play button aswell 
+    playStatus = false; 
     playSong = true;
     displayPlay = false;
     
-    redraw();
+    redraw();//redrawing all the song names and boxes to match up with the shuffled que/order of songs
   }
 
 } 
 
 public void speedChanged(GSlider source, GEvent event) { //_CODE_:speed_slider:867952:
-  if(!delete && !create){
+  if(!delete && !create){ //Cheking if delete or create screen are being displayed --> will not run if one of them are
     float displaySpeed = speed_slider.getValueF(); //getting values from the slider
 
-    playBackSpeed = map(displaySpeed, 0.0,2, 0.6, 1.4);
+    playBackSpeed = map(displaySpeed, 0.0,2, 0.6, 1.4); //Mapping the values of the slider to new values to make it sound better when slowed down and sped up
     if(playlist.get(songIndex).song.isPlaying()){
-      playlist.get(songIndex).song.rate(playBackSpeed);
+      playlist.get(songIndex).song.rate(playBackSpeed); //Changing the rate/speed of the song to match up with the slider
     }
   }
   
 } 
 
 public void volumeChanged(GSlider source, GEvent event) { //_CODE_:volume:779657:
-  if(!delete && !create){
-    float displayVolume = volume.getValueF();
+  if(!delete && !create){ //Cheking if delete or create screen are being displayed --> will not run if one of them are
+    float displayVolume = volume.getValueF();//getting values from the slider
 
-    setVolume = map(displayVolume, 0,10, 0.0,3.0);
+    setVolume = map(displayVolume, 0,10, 0.0,3.0); //mapping the values to avoid glitching of the song
 
     if(playlist.get(songIndex).song.isPlaying()){
-      playlist.get(songIndex).song.amp(setVolume);
+      playlist.get(songIndex).song.amp(setVolume); //Changing the volume of the song to match up with the slider 
     }
   }
 } 
 
 public void show_playlistClicked(GDropList source, GEvent event) { //_CODE_:dropList1:447654:
-  if(!delete && !create){
-    selectedIndex = source.getSelectedIndex();
+  if(!delete && !create){ //Cheking if delete or create screen are being displayed --> will not run if one of them are
+    selectedIndex = source.getSelectedIndex(); //Getting the index of the selected box in the dropdown menu
   
-    setActivePlaylist(selectedIndex);
+    setActivePlaylist(selectedIndex); //Setting the selected playlist as the current/active playlist 
   }
 } //_CODE_:dropList1:447654:
 
  public void youtubeUrlChanged(GTextField source, GEvent event) { //_CODE_:YoutubeUrl:779815:
-   youtubeURL = youtubeUrl.getText();
+   youtubeURL = youtubeUrl.getText(); //Getting the text from the text field
  } //_CODE_:YoutubeUrl:779815:
 
  public void youtubeCommitClicked(GButton source, GEvent event) { //_CODE_:youtubeCommit:244925:
-   getYoutubeMac(youtubeURL);
-   println(youtubeURL);
+   getYoutubeWindows(youtubeURL); //Calling getYoutubeWindows to download the song
  } //_CODE_:youtubeCommit:244925:
 
 public void createPlaylistClicked(GButton source, GEvent event) { //_CODE_:createPlaylist:727161:
-   if(!delete){
-     setActivePlaylist(0);
-     create = true;
+   if(!delete){ //Cheking if delete screen is being displayed --> will not run if it is
+     setActivePlaylist(0); //Displays defaultPlaylist(Displays this playlist since it hold all the songs in the program)
+     create = true; //Setting create to true to indicate to the rest of the program that it is on the create screen
    }
   } //_CODE_:createPlaylist:727161:
 
 public void deletePlaylistClicked(GButton source, GEvent event) { //_CODE_:deletePlaylist:748042:
-  if(!create){
-   delete = true;
-   playSong = false;
-   displayPlay = true;
+  if(!create){ //Cheking if create screen is being displayed --> will not run if it is
+   delete = true; //Setting delete as true to indicate to the rest of the program this it is on the delete playlist screen
+   playSong = false; //Pauses the song
+   displayPlay = true; //Displaying the Play button to replace pause button if it is on the screen
 
   }
 } 
 
-public void returnClicked(GButton source, GEvent event){
-  delete = false;
-  create = false;
-  if(selectedIndex == allPlaylists.size()){
+public void returnClicked(GButton source, GEvent event){ //For returning to the normal screen from either the delete or create playlist screen
+  delete = false; //setting delete to false
+  create = false; //setting create to false
+  if(selectedIndex == allPlaylists.size()){ //if the prevoiusly selected playlist was deleted, user gets returned to the all songs screen
     setActivePlaylist(0);
   }
   else{
-    setActivePlaylist(selectedIndex);
+    setActivePlaylist(selectedIndex); //Other wise the user gets returned to their past playlist
   }
   
 
   
 }
 
-public void confirmButtonClicked(GButton source, GEvent event){
-  delete = false;
-  create = false;
-  for(Song song : defaultPlaylist){
+public void confirmButtonClicked(GButton source, GEvent event){ //Similair to return button 
+  delete = false;  //setting delete to false
+  create = false; //setting create to false
+  for(Song song : defaultPlaylist){ //goes through all the songs in default playlist to unselect them/ go from green text back to black
     song.clicked = false;  // Resets all songs to unselected
   }
-  createNewPlaylist();
-  setActivePlaylist(selectedIndex);
+  createNewPlaylist(); //creates the new playlist
+  setActivePlaylist(selectedIndex); //returns user to their past playlist
 }
 
 
