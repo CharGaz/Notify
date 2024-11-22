@@ -124,7 +124,7 @@ public void volumeChanged(GSlider source, GEvent event) { //_CODE_:volume:779657
 } 
 
 public void show_playlistClicked(GDropList source, GEvent event) { //_CODE_:dropList1:447654:
-  if(!delete || !create){
+  if(!delete && !create){
     selectedIndex = source.getSelectedIndex();
   
     setActivePlaylist(selectedIndex);
@@ -136,16 +136,15 @@ public void show_playlistClicked(GDropList source, GEvent event) { //_CODE_:drop
  } //_CODE_:YoutubeUrl:779815:
 
  public void youtubeCommitClicked(GButton source, GEvent event) { //_CODE_:youtubeCommit:244925:
-   getYoutube(youtubeURL);
+   getYoutubeMac(youtubeURL);
+   println(youtubeURL);
  } //_CODE_:youtubeCommit:244925:
 
 public void createPlaylistClicked(GButton source, GEvent event) { //_CODE_:createPlaylist:727161:
    if(!delete){
      setActivePlaylist(0);
      create = true;
-
    }
-   
   } //_CODE_:createPlaylist:727161:
 
 public void deletePlaylistClicked(GButton source, GEvent event) { //_CODE_:deletePlaylist:748042:
@@ -174,7 +173,9 @@ public void returnClicked(GButton source, GEvent event){
 public void confirmButtonClicked(GButton source, GEvent event){
   delete = false;
   create = false;
-
+  for(Song song : defaultPlaylist){
+    song.clicked = false;  // Resets all songs to unselected
+  }
   createNewPlaylist();
   setActivePlaylist(selectedIndex);
 }

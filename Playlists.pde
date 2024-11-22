@@ -169,6 +169,7 @@ void playlistCreateDisplay() {
             if(!selectedSongs.contains(song)){
                 selectedSongs.add(song);
                 song.clicked = true; // Mark the song as clicked
+                
             }
             
         }
